@@ -47,7 +47,7 @@ function buildNavigation() {
 }
 
 function removeActiveFromNav(evt) {
-    if ((evt.target.nodeName === 'LI')) {
+    if ((evt.target.nodeName === 'LI') && !(evt.target.classList.contains("active"))) {
         children = navigationBar.querySelectorAll("li.menu__link");
         for (child of children) {
             child.classList.remove("active");
@@ -56,7 +56,7 @@ function removeActiveFromNav(evt) {
 }
 
 function addActiveOnClick(evt) {
-    if (evt.target.nodeName === 'LI') {
+    if ((evt.target.nodeName === 'LI') && !(evt.target.classList.contains("active"))) {
         evt.target.classList.add("active");
     }
 }
