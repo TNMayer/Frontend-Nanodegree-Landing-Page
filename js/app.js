@@ -29,6 +29,10 @@ const navigationBar = document.querySelector("#navbar__list");
 
 /* function adapted from https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/#:~:text=Demo-,Summary,in%20the%20viewport%20or%20not */
 function elementInViewport (elem) {
+    /*
+    function identivies if the given output is visible in viewport
+    it returns a boolean 
+    */
     const boundingBox = elem.getBoundingClientRect();
     return (
         boundingBox.top >= -5 &&
@@ -38,6 +42,10 @@ function elementInViewport (elem) {
 };
 
 function addNavActiveState(section) {
+    /*
+    based on the given section the function adds the class active to the navigation bar
+    no return value
+    */
     const id = section.id;
     const navElem = document.querySelector('[data-id="' + id + '"]')
     
@@ -45,6 +53,10 @@ function addNavActiveState(section) {
 }
 
 function removeNavActiveState(section) {
+    /*
+    based on the given section the function removes the class active to the navigation bar
+    no return value
+    */
     const id = section.id;
     const navElem = document.querySelector('[data-id="' + id + '"]')
     
@@ -59,6 +71,9 @@ function removeNavActiveState(section) {
 
 // build the nav
 function buildNavigation() {
+    /*
+    the function identifies all sections present in index.html and builds a navigation menu based on those sections
+    */
     for (section of sections) {
         const navName = section.getAttribute('data-nav');
         const navElement = document.createElement("li");
@@ -76,6 +91,10 @@ function buildNavigation() {
 // Add class 'active' to section when near top of viewport
 
 function setSectionActive() {
+    /*
+    function iterates over all sections in index.html, identifies if the given section is in viewport and adds active css to the navigation bar and the section itself
+    no return value
+    */
     for(section of sections) {
         if(elementInViewport(section)) {
             section.classList.add("your-active-class");
@@ -90,6 +109,9 @@ function setSectionActive() {
 // Scroll to anchor ID using scrollTO event
 
 function scrollToElement (evt) {
+    /*
+    if a section is clicked in the navigationbar the function scrolls the viewport to the clicked section
+    */
     if((evt.target.nodeName === 'LI')) {
         const sectionId = evt.target.getAttribute("data-id");
         const section = document.getElementById(sectionId);
