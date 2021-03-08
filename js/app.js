@@ -27,6 +27,30 @@ const navigationBar = document.querySelector("#navbar__list");
  * 
 */
 
+/* function adapted from https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/#:~:text=Demo-,Summary,in%20the%20viewport%20or%20not */
+function elementInViewport (elem) {
+    const boundingBox = elem.getBoundingClientRect();
+    return (
+        boundingBox.top >= -5 &&
+        boundingBox.top <= 500 &&
+        boundingBox.left >= 0
+    );
+};
+
+function addNavActiveState(section) {
+    const id = section.id;
+    const navElem = document.querySelector('[data-id="' + id + '"]')
+    
+    navElem.classList.add("active");
+}
+
+function removeNavActiveState(section) {
+    const id = section.id;
+    const navElem = document.querySelector('[data-id="' + id + '"]')
+    
+    navElem.classList.remove("active");
+}
+
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -41,31 +65,38 @@ function buildNavigation() {
         navElement.classList.add("menu__link");
         navElement.innerText = navName;
         navElement.setAttribute("title", "Scroll to " + navName);
-        navigationBar.appendChild(navElement);
-        console.log("Added " + navName + " to Navigationlist");
-    }
-}
-
-function removeActiveFromNav(evt) {
-    if ((evt.target.nodeName === 'LI') && !(evt.target.classList.contains("active"))) {
-        children = navigationBar.querySelectorAll("li.menu__link");
-        for (child of children) {
-            child.classList.remove("active");
+        navElement.setAttribute("data-id", section.id);
+        if (section.classList.contains("your-active-class")) {
+            navElement.classList.add("active");
         }
-    }
-}
-
-function addActiveOnClick(evt) {
-    if ((evt.target.nodeName === 'LI') && !(evt.target.classList.contains("active"))) {
-        evt.target.classList.add("active");
+        navigationBar.appendChild(navElement);
     }
 }
 
 // Add class 'active' to section when near top of viewport
 
+function setSectionActive() {
+    for(section of sections) {
+        if(elementInViewport(section)) {
+            section.classList.add("your-active-class");
+            addNavActiveState(section);
+        } else {
+            section.classList.remove("your-active-class");
+            removeNavActiveState(section);
+        }
+    }
+}
 
 // Scroll to anchor ID using scrollTO event
 
+function scrollToElement (evt) {
+    if((evt.target.nodeName === 'LI')) {
+        const sectionId = evt.target.getAttribute("data-id");
+        const section = document.getElementById(sectionId);
+
+        section.scrollIntoView({block: "end", behavior: "smooth"});
+    }
+};
 
 /**
  * End Main Functions
@@ -76,15 +107,15 @@ function addActiveOnClick(evt) {
 // Build menu
 
 buildNavigation();
-navigationBar.addEventListener('click', function(event) {
-    removeActiveFromNav(event);
-    addActiveOnClick(event);
-});
 
 // Scroll to section on link click
 
-// sectionFour.scrollIntoView({block: "start", behavior: "smooth"});
+navigationBar.addEventListener('click', function(event) {
+    scrollToElement(event);
+});
 
 // Set sections as active
 
-
+document.addEventListener('scroll', function () {
+    setSectionActive()
+});
