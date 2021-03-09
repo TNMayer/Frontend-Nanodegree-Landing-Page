@@ -19,7 +19,7 @@
 */
 
 const pageBlocks = document.querySelectorAll('*[id^="section"]');
-const navigationBarList = document.querySelector("#navbar__list");
+const navigationBlock = document.querySelector("#navbar__list");
 
 /**
  * End Global Variables
@@ -84,7 +84,7 @@ function createNavBar() {
         if (pageBlock.classList.contains("your-active-class")) {
             navElement.classList.add("active");
         }
-        navigationBarList.appendChild(navElement);
+        navigationBlock.appendChild(navElement);
     }
 }
 
@@ -132,7 +132,7 @@ createNavBar();
 
 // Scroll to section on link click
 
-navigationBarList.addEventListener('click', function(event) {
+navigationBlock.addEventListener('click', function(event) {
     scrollPageBlock(event);
 });
 
