@@ -70,7 +70,7 @@ function removeNavActiveState(pageBlock) {
 */
 
 // build the nav
-function createNavBar() {
+function createNavBarBlock() {
     /*
     the function identifies all sections present in index.html and builds a navigation menu based on those sections
     */
@@ -128,7 +128,7 @@ function scrollPageBlock (evt) {
 
 // Build menu
 
-createNavBar();
+createNavBarBlock();
 
 // Scroll to section on link click
 
