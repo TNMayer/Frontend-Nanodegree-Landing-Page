@@ -23,7 +23,7 @@ const mainContainer = document.querySelector("main");
 
 // add additional sections to main container
 addSections(); // functions are defined under Helper Functions
-// we first need to append the new sections to the DOM before accsessing them as global elements
+// we first need to append the new sections to the DOM before accsessing them as global variable
 const pageBlocks = document.querySelectorAll('*[id^="section"]');
 
 /**
