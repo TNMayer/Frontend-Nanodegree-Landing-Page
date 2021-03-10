@@ -72,9 +72,15 @@ section {
     cursor: pointer;
 }
 
+@media only screen and (max-width: 767px) {
+    .navbar__menu ul {
+        font-size: 0.8em;
+    }
+}
+
 @media only screen and (max-width: 575px) {
     .navbar__menu ul {
-        flex-direction: column;
+        font-size: 0.6em;
     }
 }
 

@@ -18,8 +18,13 @@
  * 
 */
 
-const pageBlocks = document.querySelectorAll('*[id^="section"]');
 const navigationBlock = document.querySelector("#navbar__list");
+const mainContainer = document.querySelector("main");
+
+// add additional sections to main container
+addSections(); // functions are defined under Helper Functions
+// we first need to append the new sections to the DOM before accsessing them as global elements
+const pageBlocks = document.querySelectorAll('*[id^="section"]');
 
 /**
  * End Global Variables
@@ -35,7 +40,7 @@ function elementVisible (elem) {
     */
     const rectangle = elem.getBoundingClientRect();
     return (
-        rectangle.top >= -5 &&
+        rectangle.top >= -50 &&
         rectangle.top <= 500 &&
         rectangle.left >= 0
     );
@@ -63,6 +68,27 @@ function removeNavActiveState(pageBlock) {
     navElem.classList.remove("active");
 }
 
+function createSection(id = 6) {
+    const template = `
+    <section id="section${id}" data-nav="Section ${id}">
+      <div class="landing__container">
+        <h2>Section ${id}</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
+
+        <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
+      </div>
+    </section>
+    `;
+
+    return template;
+}
+
+function addSections(start = 4, end = 6) {
+    for (let i = start; i <= end; i++) {
+        mainContainer.insertAdjacentHTML( 'beforeend', createSection(id = i) );
+    }
+}
+
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -74,6 +100,7 @@ function createNavBarBlock() {
     /*
     the function identifies all sections present in index.html and builds a navigation menu based on those sections
     */
+
     for (pageBlock of pageBlocks) {
         const navName = pageBlock.getAttribute('data-nav');
         const navElement = document.createElement("li");
@@ -112,11 +139,13 @@ function scrollPageBlock (evt) {
     /*
     if a section is clicked in the navigationbar the function scrolls the viewport to the clicked section
     */
+    evt.preventDefault();
+
     if((evt.target.nodeName === 'LI')) {
         const pageBlockId = evt.target.getAttribute("data-identifier");
         const pageBlock = document.getElementById(pageBlockId);
 
-        pageBlock.scrollIntoView({block: "end", behavior: "smooth"});
+        pageBlock.scrollIntoView({behavior: "smooth"});
     }
 };
 
@@ -126,18 +155,18 @@ function scrollPageBlock (evt) {
  * 
 */
 
-// Build menu
+// Build menu and append sections
 
 createNavBarBlock();
 
 // Scroll to section on link click
 
-navigationBlock.addEventListener('click', function(event) {
+navigationBlock.addEventListener('click', (event) => {
     scrollPageBlock(event);
 });
 
 // Set sections as active
 
-document.addEventListener('scroll', function () {
-    setPageBlockActive()
+document.addEventListener('scroll', () => {
+    setPageBlockActive();
 });
